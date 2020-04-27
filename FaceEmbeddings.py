@@ -14,7 +14,7 @@ con = psycopg2.connect(
 
 cur = con.cursor()
 
-work_dir = 'C:\\Users\\RajeshPachaikani\\Documents\\Dataset\\lfw\\'
+work_dir = './lfw'
 
 
 def update_table(id, name, face_emb):
@@ -52,7 +52,7 @@ def folder_exec():
 
 def cam_exec():
     x = 1001
-    name = 'Rajesh'
+    name = 'Name'
     cam = cv2.VideoCapture(0)
     while cam.isOpened():
         b, img = cam.read()
