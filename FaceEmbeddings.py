@@ -1,3 +1,15 @@
+"""
+The code here is using D-Lib by Davis E. King's pre-trained face recognition model
+@Article{dlib09,
+  author = {Davis E. King},
+  title = {Dlib-ml: A Machine Learning Toolkit},
+  journal = {Journal of Machine Learning Research},
+  year = {2009},
+  volume = {10},
+  pages = {1755-1758},
+}
+"""
+
 import psycopg2
 import cv2
 import dlib
