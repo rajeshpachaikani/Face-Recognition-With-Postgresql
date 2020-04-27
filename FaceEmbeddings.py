@@ -3,7 +3,7 @@ import cv2
 import dlib
 from psycopg2.extras import execute_values
 import os
-from face_rec_functions import *
+from FaceRecognitionFunctions import *
 
 con = psycopg2.connect(
     host='localhost',
