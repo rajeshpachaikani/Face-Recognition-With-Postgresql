@@ -5,7 +5,7 @@ import dlib
 face_rec_model_path = 'C://Users//RajeshPachaikani//PycharmProjects//Postgresql-FaceRec//Data//dlib_face_recognition_resnet_model_v1.dat'
 predictor_path = 'C://Users//RajeshPachaikani//PycharmProjects//Postgresql-FaceRec//Data//shape_predictor_5_face_landmarks.dat'
 # work_dir = os.listdir('C:\\Users\\RajeshPachaikani\\Documents\\Dataset\\lfw')
-work_dir = 'C:\\Users\\RajeshPachaikani\\Documents\\Dataset\\lfw\\'
+work_dir = '.\\lfw'
 
 facerec = dlib.face_recognition_model_v1(face_rec_model_path)
 shapepredictor = dlib.shape_predictor(predictor_path)
