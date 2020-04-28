@@ -32,12 +32,11 @@ work_dir = './lfw'
 def update_table(id, name, face_emb):
     id = str(id)
     name = str(name)
-    cur.execute("INSERT INTO face_embeddings (id,name,embedding) VALUES (%s,%s,%s)", (id, name, face_emb))
-    # try:
-    #     print(f"id:{id}, name: {name}, face embedding: {face_emb}")
-    #     cur.execute("INSERT INTO face_table (id,name,embedding) VALUES (%s,%s,%s)", (id, name, face_emb))
-    # except:
-    #     print('Error!')
+    try:
+        print(f"id:{id}, name: {name}, face embedding: {face_emb}")
+        cur.execute("INSERT INTO face_table (id,name,embedding) VALUES (%s,%s,%s)", (id, name, face_emb))
+    except:
+        print('Error!')
     con.commit()
 
 
