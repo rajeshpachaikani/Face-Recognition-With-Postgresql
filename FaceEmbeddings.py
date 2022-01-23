@@ -10,6 +10,7 @@ The code here is using D-Lib by Davis E. King's pre-trained face recognition mod
 }
 """
 
+from socket import timeout
 import psycopg2
 import cv2
 import dlib
@@ -17,14 +18,7 @@ from psycopg2.extras import execute_values
 import os
 from FaceRecognitionFunctions import *
 
-con = psycopg2.connect(
-        host = "172.25.0.2",
-        database='postgres',
-        user='postgres',
-        password='OpenCV'
-)
 
-cur = con.cursor()
 
 work_dir = './LFW/'
 

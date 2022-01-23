@@ -4,13 +4,13 @@ import dlib
 import psycopg2
 
 con = psycopg2.connect(
-        host = "172.25.0.2",
+        host = "172.22.0.2",
         database='postgres',
         user='postgres',
         password='OpenCV'
 )
-
 cur = con.cursor()
+
 
 face_rec_model_path = './Data/dlib_face_recognition_resnet_model_v1.dat'
 predictor_path = './Data/shape_predictor_5_face_landmarks.dat'
@@ -53,10 +53,3 @@ def retrieve(emb):
     result = cur.fetchall()
     return result
 
-name = "Willis_Roberts"
-# img = dlib.load_rgb_image(work_dir + name + '/' + name + '_0001.jpg')
-img = dlib.load_rgb_image("/tmp/sook.jpg")
-face_desc = get_face_embedding(img)
-face_emb = vec2list(face_desc)
-print(retrieve(face_emb))
-# print(face_emb)
