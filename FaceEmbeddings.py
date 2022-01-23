@@ -18,15 +18,15 @@ import os
 from FaceRecognitionFunctions import *
 
 con = psycopg2.connect(
-    host='localhost',
-    database='postgres',
-    user='postgres',
-    password='OpenCV'
+        host = "172.25.0.2",
+        database='postgres',
+        user='postgres',
+        password='OpenCV'
 )
 
 cur = con.cursor()
 
-work_dir = './lfw'
+work_dir = './LFW/'
 
 
 def update_table(id, name, face_emb):
@@ -34,9 +34,9 @@ def update_table(id, name, face_emb):
     name = str(name)
     try:
         print(f"id:{id}, name: {name}, face embedding: {face_emb}")
-        cur.execute("INSERT INTO face_table (id,name,embedding) VALUES (%s,%s,%s)", (id, name, face_emb))
-    except:
-        print('Error!')
+        cur.execute("INSERT INTO face_table (id,name,face_embedding) VALUES (%s,%s,%s)", (id, name, face_emb))
+    except psycopg2.DatabaseError as e :
+        print('Error! face_table', e)
     con.commit()
 
 
@@ -44,7 +44,7 @@ def folder_exec():
     x = 0
     for name in os.listdir(work_dir):
         print(name)
-        img = dlib.load_rgb_image(work_dir + name + '\\' + name + '_0001.jpg')
+        img = dlib.load_rgb_image(work_dir + name + '/' + name + '_0001.jpg')
         face_desc = get_face_embedding(img)
         face_emb = vec2list(face_desc)
         if len(face_emb) == 128:
@@ -53,8 +53,8 @@ def folder_exec():
         key = cv2.waitKey(1) & 0XFF
         if key == ord('q'):
             break
-        if x > 10:
-            break
+        # if x > 10:
+        #     break
         x += 1
     con.commit()
     cur.close()
@@ -63,7 +63,7 @@ def folder_exec():
 
 def cam_exec():
     x = 1001
-    name = 'Name'
+    name = 'Rajesh'
     cam = cv2.VideoCapture(0)
     while cam.isOpened():
         b, img = cam.read()
@@ -82,3 +82,4 @@ def cam_exec():
 
 if __name__ == "__main__":
     folder_exec()
+    # cam_exec()

@@ -1,15 +1,24 @@
 import os
 import cv2
 import dlib
+import psycopg2
 
-face_rec_model_path = './/Data//dlib_face_recognition_resnet_model_v1.dat'
-predictor_path = './/Data//shape_predictor_5_face_landmarks.dat'
-work_dir = '.\\lfw'
+con = psycopg2.connect(
+        host = "172.25.0.2",
+        database='postgres',
+        user='postgres',
+        password='OpenCV'
+)
+
+cur = con.cursor()
+
+face_rec_model_path = './Data/dlib_face_recognition_resnet_model_v1.dat'
+predictor_path = './Data/shape_predictor_5_face_landmarks.dat'
+work_dir = './LFW/'
 
 facerec = dlib.face_recognition_model_v1(face_rec_model_path)
 shapepredictor = dlib.shape_predictor(predictor_path)
 detector = dlib.get_frontal_face_detector()
-
 
 def vec2list(vec):
     out_list = []
@@ -32,20 +41,22 @@ def get_face_embedding(img):
         face_descriptor = []
     return face_descriptor
 
+def retrieve(emb):
+    query_string = """
+    select face_table.id as tabid, face_table.name as tabname,
+        euclidian ('{0}', face_table.face_embedding) as eucl from face_table
+    order by eucl ASC
+    limit 1
+    """.format(emb).replace('[','{').replace(']','}')
+    # print(query_string)
+    cur.execute(query_string)
+    result = cur.fetchall()
+    return result
 
-def folder_exec():
-    x = 0
-    for name in os.listdir(work_dir):
-        print(name)
-        img = dlib.load_rgb_image(work_dir + name + '\\' + name + '_0001.jpg')
-        face_desc = get_face_embedding(img)
-        face_emb = vec2list(face_desc)
-        # if len(face_emb)==128:
-        #     update_table(x,name,face_emb)
-        cv2.imshow('img', cv2.cvtColor(img, cv2.COLOR_RGB2BGR))
-        key = cv2.waitKey(1) & 0XFF
-        if key == ord('q'):
-            break
-        if x > 10:
-            break
-        x += 1
+name = "Willis_Roberts"
+# img = dlib.load_rgb_image(work_dir + name + '/' + name + '_0001.jpg')
+img = dlib.load_rgb_image("/tmp/sook.jpg")
+face_desc = get_face_embedding(img)
+face_emb = vec2list(face_desc)
+print(retrieve(face_emb))
+# print(face_emb)
