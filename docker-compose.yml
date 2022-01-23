@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: OpenCV
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: make@makeitnow.in
+      PGADMIN_DEFAULT_PASSWORD: OpenCV
+    ports:
+      - 8086:80
+    volumes:
+      - ./pgadmin4-data:/var/lib/pgadmin
